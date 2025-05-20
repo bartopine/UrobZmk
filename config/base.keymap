@@ -224,11 +224,11 @@ ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
 
 ZMK_BASE_LAYER(Muggles,
 //╭──────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭──────╮
-   &sl MED  &kp Q         &kp W         &kp E         &kp R         &kp T        ,  &kp Y         &kp U         &kp I         &kp O         &kp P           CUS_P ,
+   &kp Q         &kp W         &kp E         &kp R         &kp T        ,  &kp Y         &kp U         &kp I         &kp O         &kp P           CUS_P ,
 //├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤
-    CUS_L   &hml LGUI A   &hml LALT S   &hml LSHFT D  &hml LCTRL F  &kp G        ,  &kp H         &hmr RCTRL J  &hmr RSHFT K  &hmr RALT L   &hmr RGUI SQT   CUS_D ,
+&hml LGUI A   &hml LALT S   &hml LSHFT D  &hml LCTRL F  &kp G        ,  &kp H         &hmr RCTRL J  &hmr RSHFT K  &hmr RALT L   &hmr RGUI SQT   CUS_D ,
 //├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤
-   &tog COL &kp Z         &kp X         &kp C         &kp V         &kp B        ,  &kp N         &kp M         &comma_morph  &dot_morph    &qexcl          &kp LGUI ,
+&kp Z         &kp X         &kp C         &kp V         &kp B        ,  &kp N         &kp M         &comma_morph  &dot_morph    &qexcl          &kp LGUI ,
 //╰──────╯ ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯ ╰──────╯
                                         &sl MOU       &lt NUM TAB   &lt_spc NAV  ,  &lt FN RET    &bs_del       &leader
 //                                     ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯

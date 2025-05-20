@@ -13,6 +13,7 @@
 #define COMBO_IDLE_FAST 150
 #define COMBO_IDLE_SLOW 50
 
+// make homerow combos tap-only (so HRMs can be chorded instantaneously)
 #define HRC_ESC    &hml         LS(LALT) ESC
 #define HRC_RET    &hml         LC(LSHFT) RET
 #define HRC_REPEAT &hml_repeat  LC(LGUI) 0
@@ -24,15 +25,19 @@
 #define KOM_MOVE_L  &kp LC(LA(LEFT))
 #define KOM_MOVE_R  &kp LC(LA(RIGHT))
 
-// Combos overlapping HRMs are set up as hold-taps themselves to allow for instantaneous
-// chording of mods. Custom hold-tap instances can be bootstrapped on the go using the
-// 8-argument version of ZMK_COMBO defined in base.keymap.
+/* Horizontal combos - left hand */
+ZMK_COMBO(ldr,   &smart_shft,   LT1 LT2,     DEF NAV NUM COL, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mouse, &smart_mouse,  LT2 LT3,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(sldr,  &kp RET,     LT1 LM2 LM3,   DEF NAV NUM COL, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
 ZMK_COMBO(esc,   HRC_ESC,       LM3 LM2,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(tab,   &kp TAB,       LM2 LM1,     DEF     NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(ldr,   &leader,       LM1 LM3,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(ldrsh, &leader_sft, LM3 LM2 LM1,   DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
-ZMK_COMBO(cut,   &kp LC(X),    LB3 LB1,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(copy,  &kp LC(INS),  LB3 LB2,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(paste, &kp LS(INS),  LB2 LB1,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(cut,   &kp LC(X),     LB3 LB1,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(copy,  &kp LC(INS),   LB3 LB2,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(paste, &kp LS(INS),   LB2 LB1,     DEF NAV NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
 /* Horizontal combos - right hand */
 ZMK_COMBO(bspc,  &kp BSPC,      RT2 RT3,     DEF     NUM COL, COMBO_TERM_FAST, COMBO_IDLE_FAST)

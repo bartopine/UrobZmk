@@ -11,7 +11,6 @@
 #endif
 
 #include "zmk-helpers/helper.h"
-#include "zmk-helpers/key-labels/42.h"
 #include "zmk-helpers/unicode-chars/french.dtsi"
 #include "zmk-helpers/unicode-chars/greek.dtsi"
 #include "zmk-helpers/unicode-chars/german.dtsi"

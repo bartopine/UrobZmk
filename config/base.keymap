@@ -161,7 +161,7 @@ SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
 SIMPLE_MORPH(lpar_un, SFT, &kp LPAR, &kp UNDER)
 
 // tap: left parenthesis | shft + tap: dollar
-SIMPLE_MORPH(rpar_un, SFT, &kp RPAR, &kp DLLR)
+SIMPLE_MORPH(rpar_dol, SFT, &kp RPAR, &kp DLLR)
 
 // tap: forward slash | shft + tap: backslash
 SIMPLE_MORPH(fslh_bslh, SFT, &kp FSLH, &kp BSLH)

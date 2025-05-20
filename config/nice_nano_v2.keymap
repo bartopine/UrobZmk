@@ -4,7 +4,7 @@
         name,                                                                  \
            &none LT RT &none                                                   \
            &none LM RM &none                                                   \
-           &none LB RT &none                                                   \
+           &none LB RB &none                                                   \
         &kp LGUI LH RH &smart_mouse                                            \
     )
 

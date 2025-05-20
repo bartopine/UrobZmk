@@ -217,8 +217,6 @@ ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
 
 /* Keymap */
 
-ZMK_CONDITIONAL_LAYER(sys, FN NUM, MOU)  // FN + NUM --> SYS
-
 ZMK_LAYER(Muggles,
 //╭──────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭──────╮
    &sl MED  &kp Q         &kp W         &kp E         &kp R         &kp T           &kp Y         &kp U         &kp I         &kp O         &kp P           CUS_P

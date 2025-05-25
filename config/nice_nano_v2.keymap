@@ -8,9 +8,9 @@
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                   \
     ZMK_LAYER(                                                                 \
         name,                                                                  \
-           &none LT RT CUS_P                                                   \
+         &sl MED LT RT CUS_P                                                   \
            CUS_L LM RM CUS_D                                                   \
-           &none LB RB &none                                                   \
-        &kp LGUI LH RH &smart_mouse                                            \
+        &kp LGUI LB RB &none                                                   \
+        &tog COL LH RH &smart_mouse                                            \
     )
 

@@ -5,10 +5,6 @@
 #define CUS_L    &kp LC(LA(LS(SPACE)))  // windows launcher
 #define T_COL    &tog COL               // toggle colemak layer
 #define META     &kp LGUI               // master key
-
-#include "zmk-helpers/key-labels/42.h"
-#include "base.keymap"
-
 #undef ZMK_BASE_LAYER
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                   \
     ZMK_LAYER(                                                                 \
@@ -18,3 +14,7 @@
            T_COL LB RB &none                                                   \
            META  LH RH &smart_mouse                                            \
     )
+
+#include "zmk-helpers/key-labels/42.h"
+#include "base.keymap"
+

@@ -145,9 +145,6 @@ ZMK_TRI_STATE(swapper, bindings = <&kt LALT>, <&kp TAB>, <&kt LALT>;
   ZMK_MOD_MORPH(NAME, mods = <(MOD_L##MOD | MOD_R##MOD)>;                      \
                 bindings = <BINDING1>, <BINDING2>;)
 
-// Tap: leader | Shift + tap: shift_leader | Hold: NUM layer
-SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &comma_inner_morph)
-
 // Tap: comma | Shift + tap: semicolon | Ctrl + shift + tap: <.
 SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &comma_inner_morph)
 SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMICOLON, &kp LESS_THAN)
@@ -187,8 +184,6 @@ ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(INS)>, <&kp LC(X)>;
 ZMK_HOLD_TAP(num_ldr, bindings = <&mo>, <&ldr_sldr>; flavor = "balanced";
              tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
 SIMPLE_MORPH(ldr_sldr, SFT, &leader, &leader_sft)
-
-// Sticky shift + leader.
 ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
 
 // Misc aliases. [TODO: clean up]

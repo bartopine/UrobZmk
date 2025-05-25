@@ -186,7 +186,7 @@ ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(INS)>, <&kp LC(X)>;
 // Tap: leader | Shift + tap: shift_leader | Hold: num layer
 ZMK_HOLD_TAP(num_ldr, bindings = <&mo>, <&ldr_sldr>; flavor = "balanced";
              tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
-SIMPLE_MORPH(ldr_sldr, SFT, &leader, leader_sft)
+SIMPLE_MORPH(ldr_sldr, SFT, &leader, &leader_sft)
 
 // Sticky shift + leader.
 ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)

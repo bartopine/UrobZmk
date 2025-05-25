@@ -3,7 +3,6 @@
 #define CUS_P    &kp LC(LA(LS(P)))      // password managers
 #define CUS_D    &kp LC(LA(LS(C)))      // ditto clipboard manager
 #define CUS_L    &kp LC(LA(LS(SPACE)))  // windows launcher
-#define T_COL    &tog COL               // toggle colemak layer
 #define META     &kp LGUI               // master key
 #undef ZMK_BASE_LAYER
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                   \
@@ -11,7 +10,7 @@
         name,                                                                  \
            &none LT RT CUS_P                                                   \
            CUS_L LM RM CUS_D                                                   \
-           T_COL LB RB &none                                                   \
+           $none LB RB &none                                                   \
            META  LH RH &smart_mouse                                            \
     )
 

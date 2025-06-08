@@ -89,6 +89,39 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
 #define NAV_BSPC  &mt LC(BSPC) BSPC  // Tap: bspc  | Long-tap: delete word bwd.
 #define NAV_DEL   &mt LC(DEL)  DEL   // Tap: del   | Long-tap: delete word fwd.
 
+// Misc aliases. [TODO: clean up]
+#define CANCEL    &kp K_CANCEL            // Cancel caps-word & auto-layers.
+#define DSK_PREV  &hmr LCTRL LG(LC(LEFT)) // Previous desktop.
+#define DSK_NEXT  &hmr LALT LG(LC(RIGHT)) // Next     desktop.
+#define PIN_WIN   &kp LG(LC(LS(Q)))       // Pin window across desktops.
+#define PIN_APP   &kp LG(LC(LS(A)))       // Pin application across desktops.
+#define DSK_MGR   &kp LA(GRAVE)           // Desktop manager.
+#define VOL_DOWN  &hmr RSHFT C_VOL_DN
+
+// custom app aliases
+#define CUS_P    &kp LC(LA(LS(P)))      // password managers
+#define CUS_D    &kp LC(LA(LS(C)))      // ditto clipboard manager
+#define CUS_L    &kp LC(LA(LS(SPACE)))  // windows launcher
+#define CUS_J    &kp LG(LC(LA(LS(J))))  // windows jumper
+#define CUS_W    &kp LC(W)              // close tab
+#define CUS_Q    &kp LA(F4)             // terminate window
+#define CUS_T    &kp LC(T)              // new tab
+#define CUS_F    &hml LCTRL LC(F)       // find
+#define CUS_DEL  &hml LSHFT DEL         // delete hml
+#define CUS_E    &kp LG(E)              // explorer
+#define CUS_R    &kp F2                 // rename
+#define CUS_G    &kp LC(LA(TAB))        // swapper
+
+// komorebi aliases
+#define KOM_LEFT    &kp LA(LEFT)
+#define KOM_RIGHT   &kp LA(RIGHT)
+#define KOM_DOWN    &kp LA(DOWN)
+#define KOM_UP      &kp LA(UP)
+#define KOM_REL     &kp LA(LS(F))
+#define KOM_RET     &kp LA(LS(R))
+#define KOM_CYCW    &kp LA(END)
+
+
 // Mask CTRL on left/right hold to avoid accidental jumps to start/end of doc.
 #define MASK_MODS(NAME, MODS, BINDING)                                         \
   ZMK_MOD_MORPH(NAME, bindings = <BINDING>, <BINDING>; mods = <MODS>;)
@@ -163,6 +196,9 @@ SIMPLE_MORPH(rpar_dol, SFT, &kp RPAR, &kp DLLR)
 // tap: forward slash | shft + tap: backslash
 SIMPLE_MORPH(fslh_bslh, SFT, &kp FSLH, &kp BSLH)
 
+// tap: tmux leader | shft + tap: colemak layer
+SIMPLE_MORPH(tmux_col, SFT, &kp LC(SPACE), &tog COL)
+
 // Tap: space | Shift + tap: dot -> space -> sticky shift | Hold: nav layer.
 ZMK_HOLD_TAP(lt_spc, bindings = <&mo>, <&spc_morph>; flavor = "balanced";
              tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
@@ -183,38 +219,6 @@ ZMK_HOLD_TAP(num_ldr, bindings = <&mo>, <&ldr_sldr>; flavor = "balanced";
              tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
 SIMPLE_MORPH(ldr_sldr, SFT, &leader, &leader_sft)
 ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
-
-// Misc aliases. [TODO: clean up]
-#define CANCEL    &kp K_CANCEL            // Cancel caps-word & auto-layers.
-#define DSK_PREV  &hmr LCTRL LG(LC(LEFT)) // Previous desktop.
-#define DSK_NEXT  &hmr LALT LG(LC(RIGHT)) // Next     desktop.
-#define PIN_WIN   &kp LG(LC(LS(Q)))       // Pin window across desktops.
-#define PIN_APP   &kp LG(LC(LS(A)))       // Pin application across desktops.
-#define DSK_MGR   &kp LA(GRAVE)           // Desktop manager.
-#define VOL_DOWN  &hmr RSHFT C_VOL_DN
-
-// custom app aliases
-#define CUS_P    &kp LC(LA(LS(P)))      // password managers
-#define CUS_D    &kp LC(LA(LS(C)))      // ditto clipboard manager
-#define CUS_L    &kp LC(LA(LS(SPACE)))  // windows launcher
-#define CUS_J    &kp LG(LC(LA(LS(J))))  // windows jumper
-#define CUS_W    &kp LC(W)              // close tab
-#define CUS_Q    &kp LA(F4)             // terminate window
-#define CUS_T    &kp LC(T)              // new tab
-#define CUS_F    &hml LCTRL LC(F)       // find
-#define CUS_DEL  &hml LSHFT DEL         // delete hml
-#define CUS_E    &kp LG(E)              // explorer
-#define CUS_R    &kp F2                 // rename
-#define CUS_G    &kp LC(LA(TAB))        // swapper
-
-// komorebi aliases
-#define KOM_LEFT    &kp LA(LEFT)
-#define KOM_RIGHT   &kp LA(RIGHT)
-#define KOM_DOWN    &kp LA(DOWN)
-#define KOM_UP      &kp LA(UP)
-#define KOM_REL     &kp LA(LS(F))
-#define KOM_RET     &kp LA(LS(R))
-#define KOM_CYCW    &kp LA(END)
 
 /* Combos, leader key sequences, mouse emulation */
 

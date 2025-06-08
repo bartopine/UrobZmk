@@ -12,8 +12,6 @@
 
 #include "zmk-helpers/helper.h"
 #include "zmk-helpers/unicode-chars/french.dtsi"
-#include "zmk-helpers/unicode-chars/greek.dtsi"
-#include "zmk-helpers/unicode-chars/german.dtsi"
 
 #define DEF 0
 #define COL 1

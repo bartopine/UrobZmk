@@ -10,6 +10,7 @@
   #define _BT_SEL_KEYS_ &trans &trans &trans &trans &trans
 #endif
 
+#define HOST_OS 1
 #include "zmk-helpers/helper.h"
 #include "zmk-helpers/unicode-chars/french.dtsi"
 

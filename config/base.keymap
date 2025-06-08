@@ -235,7 +235,7 @@ ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
          &sl MED LT RT CUS_P                                                   \
            CUS_L LM RM CUS_D                                                   \
         &kp LGUI LB RB &none                                                   \
-        &tog COL LH RH &smart_mouse                                            \
+       &tmux_col LH RH &smart_mouse                                            \
     )
 
 

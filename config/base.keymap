@@ -119,7 +119,6 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
 #define TWM_RIGHT   &kp LG(RIGHT)
 #define TWM_DOWN    &kp LG(DOWN)
 #define TWM_UP      &kp LG(UP)
-#define TWM_CYCW    &kp LA(END)
 
 // tiling window manager workspace aliases
 #define TWM_WS1     &kp LG(N1)
@@ -280,11 +279,11 @@ ZMK_BASE_LAYER(Amut,
 
 ZMK_BASE_LAYER(Nav,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-    CUS_Q         CUS_W         CUS_E         CUS_R         CUS_T       ,   TWM_LEFT      TWM_DOWN      TWM_UP        TWM_RIGHT     TWM_CYCW    ,
+    CUS_Q         CUS_W         CUS_E         CUS_R         CUS_T       ,   TWM_LEFT      TWM_DOWN      TWM_UP        TWM_RIGHT     ___         ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
     &kp LGUI      &sk LALT      CUS_DEL       CUS_F         CUS_G       ,   NAV_LEFT      NAV_DOWN      NAV_UP        NAV_RIGHT     CUS_J       ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    ___           ___           ___           ___           ___         ,   &kp HOME      &kp END       &kp PG_UP     &kp PG_DN     ___         ,
+    TWM_WS1       TWM_WS2       TWM_WS3       TWM_WS4       ___         ,   &kp HOME      &kp END       &kp PG_UP     &kp PG_DN     ___         ,
 //╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
                                               ___           ___         ,   ___           CANCEL
 //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯

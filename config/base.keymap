@@ -241,7 +241,7 @@ ZMK_HOLD_TAP(smart_bare_fn, bindings = <&mo>, <&sl_game_fn>; flavor = "balanced"
          &sl MED LT RT CUS_P                                                   \
            CUS_L LM RM CUS_D                                                   \
         &tog COL LB RB &smart_mouse                                            \
-       &leader_morph LH RH &smart_bare_fn                                      \
+       &leader_morph LH RH &smart_bare_fn GAME 0                               \
     )
 
 

@@ -22,8 +22,6 @@
 #define NAV_TABS_L  &hmr LC(LSHFT) LC(LS(TAB))
 #define NAV_TABS_R  &hmr LCTRL LC(TAB)
 #define FBSLH       &fslh_bslh
-#define KOM_MOVE_L  &kp LC(LA(LEFT))
-#define KOM_MOVE_R  &kp LC(LA(RIGHT))
 
 /* Horizontal combos - left hand */
 ZMK_COMBO(caps,  MAGIC_SHIFT,   LT1 LT2,     DEF NAV NUM COL , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
@@ -38,8 +36,6 @@ ZMK_COMBO(paste, &kp LS(INS),   LB2 LB1,     DEF NAV NUM COL , COMBO_TERM_FAST, 
 /* Horizontal combos - right hand */
 ZMK_COMBO(bspc,  &kp BSPC,      RT2 RT3,     DEF     NUM COL , COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(del,   &kp DEL,       RT1 RT2,     DEF     NUM COL , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(kml,   KOM_MOVE_L,    RT1 RT2,         NAV      , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(kmr,   KOM_MOVE_R,    RT2 RT3,         NAV      , COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
 ZMK_COMBO(lpar,  HRC_LPAR,      RM1 RM2,     DEF     NUM COL , COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(rpar,  HRC_RPAR,      RM2 RM3,     DEF     NUM COL , COMBO_TERM_FAST, COMBO_IDLE_FAST)

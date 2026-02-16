@@ -114,14 +114,18 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
 #define CUS_R    &kp F2                 // rename
 #define CUS_G    &kp LC(LA(TAB))        // swapper
 
-// komorebi aliases
-#define KOM_LEFT    &kp LA(LEFT)
-#define KOM_RIGHT   &kp LA(RIGHT)
-#define KOM_DOWN    &kp LA(DOWN)
-#define KOM_UP      &kp LA(UP)
-#define KOM_REL     &kp LA(LS(F))
-#define KOM_RET     &kp LA(LS(R))
-#define KOM_CYCW    &kp LA(END)
+// tiling window manager aliases (komorebi / hyprland)
+#define TWM_LEFT    &kp LG(LEFT)
+#define TWM_RIGHT   &kp LG(RIGHT)
+#define TWM_DOWN    &kp LG(DOWN)
+#define TWM_UP      &kp LG(UP)
+#define TWM_CYCW    &kp LA(END)
+
+// tiling window manager workspace aliases
+#define TWM_WS1     &kp LG(N1)
+#define TWM_WS2     &kp LG(N2)
+#define TWM_WS3     &kp LG(N3)
+#define TWM_WS4     &kp LG(N4)
 
 
 // Mask CTRL on left/right hold to avoid accidental jumps to start/end of doc.
@@ -276,7 +280,7 @@ ZMK_BASE_LAYER(Amut,
 
 ZMK_BASE_LAYER(Nav,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-    CUS_Q         CUS_W         CUS_E         CUS_R         CUS_T       ,   KOM_LEFT      KOM_DOWN      KOM_UP        KOM_RIGHT     KOM_CYCW    ,
+    CUS_Q         CUS_W         CUS_E         CUS_R         CUS_T       ,   TWM_LEFT      TWM_DOWN      TWM_UP        TWM_RIGHT     TWM_CYCW    ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
     &kp LGUI      &sk LALT      CUS_DEL       CUS_F         CUS_G       ,   NAV_LEFT      NAV_DOWN      NAV_UP        NAV_RIGHT     CUS_J       ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤

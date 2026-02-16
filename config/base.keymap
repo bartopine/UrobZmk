@@ -197,8 +197,8 @@ SIMPLE_MORPH(rpar_dol, SFT, &kp RPAR, &kp DLLR)
 // tap: forward slash | shft + tap: backslash
 SIMPLE_MORPH(fslh_bslh, SFT, &kp FSLH, &kp BSLH)
 
-// tap: tmux leader | shft + tap: colemak layer
-SIMPLE_MORPH(tmux_col, SFT, &kp LC(SPACE), &tog COL)
+// tap: leader | shft + tap: shift+leader (uppercase accents)
+SIMPLE_MORPH(leader_morph, SFT, &leader, &leader_sft)
 
 // Tap: space | Shift + tap: dot -> space -> sticky shift | Hold: nav layer.
 ZMK_HOLD_TAP(lt_spc, bindings = <&mo>, <&spc_morph>; flavor = "balanced";
@@ -215,11 +215,16 @@ ZMK_MOD_MORPH(bs_del, bindings = <&kp BSPC>, <&kp DEL>;
 ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(INS)>, <&kp LC(X)>;
               tapping-term-ms = <200>;)
 
-// Tap: leader | Shift + tap: shift_leader | Hold: num layer
-ZMK_HOLD_TAP(num_ldr, bindings = <&mo>, <&ldr_sldr>; flavor = "balanced";
+// Tap: tmux leader (Ctrl+Space) | Shift + tap: smart_num | Hold: num layer
+SIMPLE_MORPH(tmux_smart, SFT, &kp LC(SPACE), &num_dance)
+ZMK_HOLD_TAP(tmux_num, bindings = <&mo>, <&tmux_smart>; flavor = "balanced";
              tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
-SIMPLE_MORPH(ldr_sldr, SFT, &leader, &leader_sft)
 ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
+
+// Tap: one-shot game layer | Shift + tap: toggle FN | Hold: game layer
+SIMPLE_MORPH(sl_game_fn, SFT, &sl GAME, &tog FN)
+ZMK_HOLD_TAP(smart_bare_fn, bindings = <&mo>, <&sl_game_fn>; flavor = "balanced";
+             tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
 
 /* Combos, leader key sequences, mouse emulation */
 

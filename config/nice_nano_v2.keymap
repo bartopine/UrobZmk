@@ -1,0 +1,4 @@
+#define CONFIG_WIRELESS
+
+#include "helpers/key-labels/42.h"
+#include "base.keymap"

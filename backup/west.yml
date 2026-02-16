@@ -37,6 +37,8 @@ manifest:
       path: modules/zmk/adaptive-key
     - name: zmk-auto-layer
       path: modules/zmk/auto-layer
+    - name: zmk-helpers
+      path: modules/zmk/helpers
     - name: zmk-leader-key
       path: modules/zmk/leader-key
     - name: zmk-tri-state

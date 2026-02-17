@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UrobZmk Keymap Reference</title>
+<style>
+  :root {
+    --bg:      #282828;
+    --bg0-h:   #1d2021;
+    --bg1:     #3c3836;
+    --bg2:     #504945;
+    --bg3:     #665c54;
+    --bg4:     #7c6f64;
+    --fg:      #ebdbb2;
+    --fg2:     #d5c4a1;
+    --fg3:     #bdae93;
+    --fg4:     #a89984;
+    --red:     #fb4934;
+    --green:   #b8bb26;
+    --yellow:  #fabd2f;
+    --blue:    #83a598;
+    --purple:  #d3869b;
+    --aqua:    #8ec07c;
+    --orange:  #fe8019;
+    --red-dim:    #cc241d;
+    --green-dim:  #98971a;
+    --yellow-dim: #d79921;
+    --blue-dim:   #458588;
+    --purple-dim: #b16286;
+    --aqua-dim:   #689d6a;
+    --orange-dim: #d65d0e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg0-h);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    padding: 24px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    text-align: center;
+    color: var(--orange);
+    font-size: 1.4em;
+    margin-bottom: 4px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--fg4);
+    font-size: 0.75em;
+    margin-bottom: 20px;
+  }
+
+  /* Layer tabs */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 6px 14px;
+    border: 1px solid var(--bg3);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75em;
+    font-family: inherit;
+    color: var(--fg3);
+    background: var(--bg1);
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .tab:hover { background: var(--bg2); color: var(--fg); }
+
+  .tab.active {
+    border-color: var(--orange-dim);
+    color: var(--orange);
+    background: var(--bg2);
+  }
+
+  /* Keyboard container */
+  .keyboard-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .keyboard {
+    display: grid;
+    grid-template-columns: repeat(12, 64px);
+    grid-template-rows: repeat(4, 54px);
+    gap: 4px;
+    position: relative;
+  }
+
+  /* Key styles */
+  .key {
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68em;
+    position: relative;
+    border: 1px solid var(--bg3);
+    transition: all 0.15s;
+    padding: 2px 3px;
+    line-height: 1.3;
+  }
+
+  .key:hover {
+    border-color: var(--fg4);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .key .tap { color: var(--fg); font-weight: 600; font-size: 1.05em; }
+  .key .hold { color: var(--fg4); font-size: 0.85em; margin-top: 1px; }
+  .key .shift-tap { color: var(--purple); font-size: 0.78em; position: absolute; top: 2px; right: 3px; }
+  .key .mod-label { color: var(--fg4); font-size: 0.72em; position: absolute; bottom: 1px; left: 3px; }
+
+  /* Key color categories */
+  .key-alpha    { background: var(--bg1); }
+  .key-mod      { background: #3b4439; border-color: var(--green-dim); }
+  .key-hrm      { background: var(--bg1); border-bottom: 2px solid var(--aqua-dim); }
+  .key-layer    { background: #3d3535; border-color: var(--red-dim); }
+  .key-thumb    { background: #3a3428; border-color: var(--yellow-dim); }
+  .key-nav      { background: #2e3b3b; border-color: var(--blue-dim); }
+  .key-symbol   { background: #3b3040; border-color: var(--purple-dim); }
+  .key-fn       { background: #3d3535; border-color: var(--red-dim); }
+  .key-num      { background: #3a3428; border-color: var(--yellow-dim); }
+  .key-media    { background: #2e3b3b; border-color: var(--blue-dim); }
+  .key-shared   { background: var(--bg2); border-color: var(--bg4); }
+  .key-trans    { background: var(--bg); border-color: var(--bg2); opacity: 0.5; }
+  .key-none     { background: var(--bg); border-color: var(--bg1); opacity: 0.3; }
+  .key-twm      { background: #3b3040; border-color: var(--purple-dim); }
+  .key-mouse    { background: #3a3428; border-color: var(--orange-dim); }
+  .key-bt       { background: #2e3b3b; border-color: var(--blue-dim); }
+  .key-super    { background: #3b3040; border-color: var(--purple-dim); }
+
+  /* Thumb key offsets */
+  .thumb-row {
+    grid-column: 4 / 10;
+    display: grid;
+    grid-template-columns: repeat(6, 64px);
+    gap: 4px;
+    grid-row: 4;
+  }
+
+  /* Position grid items */
+  .pos-lt5 { grid-column: 1; grid-row: 1; }
+  .pos-lt4 { grid-column: 2; grid-row: 1; }
+  .pos-lt3 { grid-column: 3; grid-row: 1; }
+  .pos-lt2 { grid-column: 4; grid-row: 1; }
+  .pos-lt1 { grid-column: 5; grid-row: 1; }
+  .pos-lt0 { grid-column: 6; grid-row: 1; }
+  .pos-rt0 { grid-column: 7; grid-row: 1; }
+  .pos-rt1 { grid-column: 8; grid-row: 1; }
+  .pos-rt2 { grid-column: 9; grid-row: 1; }
+  .pos-rt3 { grid-column: 10; grid-row: 1; }
+  .pos-rt4 { grid-column: 11; grid-row: 1; }
+  .pos-rt5 { grid-column: 12; grid-row: 1; }
+
+  .pos-lm5 { grid-column: 1; grid-row: 2; }
+  .pos-lm4 { grid-column: 2; grid-row: 2; }
+  .pos-lm3 { grid-column: 3; grid-row: 2; }
+  .pos-lm2 { grid-column: 4; grid-row: 2; }
+  .pos-lm1 { grid-column: 5; grid-row: 2; }
+  .pos-lm0 { grid-column: 6; grid-row: 2; }
+  .pos-rm0 { grid-column: 7; grid-row: 2; }
+  .pos-rm1 { grid-column: 8; grid-row: 2; }
+  .pos-rm2 { grid-column: 9; grid-row: 2; }
+  .pos-rm3 { grid-column: 10; grid-row: 2; }
+  .pos-rm4 { grid-column: 11; grid-row: 2; }
+  .pos-rm5 { grid-column: 12; grid-row: 2; }
+
+  .pos-lb5 { grid-column: 1; grid-row: 3; }
+  .pos-lb4 { grid-column: 2; grid-row: 3; }
+  .pos-lb3 { grid-column: 3; grid-row: 3; }
+  .pos-lb2 { grid-column: 4; grid-row: 3; }
+  .pos-lb1 { grid-column: 5; grid-row: 3; }
+  .pos-lb0 { grid-column: 6; grid-row: 3; }
+  .pos-rb0 { grid-column: 7; grid-row: 3; }
+  .pos-rb1 { grid-column: 8; grid-row: 3; }
+  .pos-rb2 { grid-column: 9; grid-row: 3; }
+  .pos-rb3 { grid-column: 10; grid-row: 3; }
+  .pos-rb4 { grid-column: 11; grid-row: 3; }
+  .pos-rb5 { grid-column: 12; grid-row: 3; }
+
+  .pos-lh2 { grid-column: 4; grid-row: 4; }
+  .pos-lh1 { grid-column: 5; grid-row: 4; }
+  .pos-lh0 { grid-column: 6; grid-row: 4; }
+  .pos-rh0 { grid-column: 7; grid-row: 4; }
+  .pos-rh1 { grid-column: 8; grid-row: 4; }
+  .pos-rh2 { grid-column: 9; grid-row: 4; }
+
+  /* Combos section */
+  .combos-section {
+    max-width: 840px;
+    margin: 0 auto 20px;
+  }
+
+  .combos-section h2 {
+    color: var(--aqua);
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--bg3);
+    padding-bottom: 6px;
+  }
+
+  .combo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 6px;
+  }
+
+  .combo-item {
+    background: var(--bg1);
+    border: 1px solid var(--bg3);
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 0.72em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .combo-keys {
+    color: var(--yellow);
+    font-weight: 600;
+  }
+
+  .combo-result {
+    color: var(--fg2);
+  }
+
+  .combo-layers {
+    color: var(--fg4);
+    font-size: 0.85em;
+  }
+
+  /* Legend */
+  .legend {
+    max-width: 840px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--bg2);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.65em;
+    color: var(--fg3);
+  }
+
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid var(--bg3);
+  }
+
+  /* Layer panel visibility */
+  .layer-panel { display: none; }
+  .layer-panel.active { display: block; }
+
+  /* Separator between hands */
+  .hand-sep {
+    grid-column: 6 / 8;
+    grid-row: 1 / 5;
+    pointer-events: none;
+  }
+
+  /* Behavior detail tooltip */
+  .key[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    color: var(--fg2);
+    border: 1px solid var(--bg4);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.85em;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .section-label {
+    color: var(--fg4);
+    font-size: 0.7em;
+    text-align: center;
+    margin: 8px 0 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>UROB ZMK KEYMAP</h1>
+<p class="subtitle">42-key Corne &mdash; Colemak-DH &mdash; Gruvbox Edition</p>
+
+<div class="tabs" id="tabs">
+  <button class="tab active" data-layer="colemak">Colemak-DH</button>
+  <button class="tab" data-layer="qwerty">QWERTY</button>
+  <button class="tab" data-layer="nav">Nav</button>
+  <button class="tab" data-layer="fn">Fn</button>
+  <button class="tab" data-layer="num">Num</button>
+  <button class="tab" data-layer="snum">Super+Num</button>
+  <button class="tab" data-layer="media">Media</button>
+  <button class="tab" data-layer="mouse">Mouse</button>
+</div>
+
+<!-- ═══════════════ COLEMAK-DH ═══════════════ -->
+<div class="layer-panel active" id="layer-colemak">
+  <div class="keyboard-container"><div class="keyboard">
+    <!-- Row 1 -->
+    <div class="key key-shared pos-lt5" title="Sticky layer: Media"><span class="tap">MED</span><span class="hold">sticky</span></div>
+    <div class="key key-alpha pos-lt4"><span class="tap">Q</span></div>
+    <div class="key key-alpha pos-lt3"><span class="tap">W</span></div>
+    <div class="key key-alpha pos-lt2"><span class="tap">F</span></div>
+    <div class="key key-alpha pos-lt1"><span class="tap">P</span></div>
+    <div class="key key-alpha pos-lt0"><span class="tap">B</span></div>
+    <div class="key key-alpha pos-rt0"><span class="tap">J</span></div>
+    <div class="key key-alpha pos-rt1"><span class="tap">L</span></div>
+    <div class="key key-alpha pos-rt2"><span class="tap">U</span></div>
+    <div class="key key-alpha pos-rt3"><span class="tap">Y</span></div>
+    <div class="key key-alpha pos-rt4"><span class="tap">'</span></div>
+    <div class="key key-shared pos-rt5" title="Ctrl+Alt+Shift+P: Password manager"><span class="tap">Pass</span><span class="hold">C+A+S+P</span></div>
+    <!-- Row 2 -->
+    <div class="key key-shared pos-lm5" title="Ctrl+Alt+Shift+Space: App launcher"><span class="tap">Launch</span></div>
+    <div class="key key-hrm pos-lm4" title="Hold: Super"><span class="tap">A</span><span class="mod-label">Gui</span></div>
+    <div class="key key-hrm pos-lm3" title="Hold: Alt"><span class="tap">R</span><span class="mod-label">Alt</span></div>
+    <div class="key key-hrm pos-lm2" title="Hold: Shift"><span class="tap">S</span><span class="mod-label">Sft</span></div>
+    <div class="key key-hrm pos-lm1" title="Hold: Ctrl"><span class="tap">T</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-alpha pos-lm0"><span class="tap">G</span></div>
+    <div class="key key-alpha pos-rm0"><span class="tap">M</span></div>
+    <div class="key key-hrm pos-rm1" title="Hold: Ctrl"><span class="tap">N</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-hrm pos-rm2" title="Hold: Shift"><span class="tap">E</span><span class="mod-label">Sft</span></div>
+    <div class="key key-hrm pos-rm3" title="Hold: Alt"><span class="tap">I</span><span class="mod-label">Alt</span></div>
+    <div class="key key-hrm pos-rm4" title="Hold: Super"><span class="tap">O</span><span class="mod-label">Gui</span></div>
+    <div class="key key-shared pos-rm5" title="Ctrl+Alt+Shift+C: Clipboard manager"><span class="tap">Clip</span><span class="hold">C+A+S+C</span></div>
+    <!-- Row 3 -->
+    <div class="key key-shared pos-lb5" title="Toggle QWERTY layer"><span class="tap">QWRT</span><span class="hold">toggle</span></div>
+    <div class="key key-alpha pos-lb4"><span class="tap">Z</span></div>
+    <div class="key key-alpha pos-lb3"><span class="tap">X</span></div>
+    <div class="key key-alpha pos-lb2"><span class="tap">C</span></div>
+    <div class="key key-alpha pos-lb1"><span class="tap">D</span></div>
+    <div class="key key-alpha pos-lb0"><span class="tap">V</span></div>
+    <div class="key key-alpha pos-rb0"><span class="tap">K</span></div>
+    <div class="key key-alpha pos-rb1"><span class="tap">H</span></div>
+    <div class="key key-symbol pos-rb2" title="Tap: , | Shift: ; | Ctrl+Shift: <"><span class="tap">, ; &lt;</span></div>
+    <div class="key key-symbol pos-rb3" title="Tap: . | Shift: : | Ctrl+Shift: >"><span class="tap">. : &gt;</span></div>
+    <div class="key key-symbol pos-rb4" title="Tap: ? | Shift: !"><span class="tap">? !</span></div>
+    <div class="key key-shared pos-rb5" title="Smart mouse toggle"><span class="tap">Mouse</span><span class="hold">smart</span></div>
+    <!-- Thumb row -->
+    <div class="key key-thumb pos-lh2" title="Tap: leader | Shift+tap: Shift+leader"><span class="tap">Leader</span></div>
+    <div class="key key-thumb pos-lh1" title="Tap: Tmux (C-Space) | Shift: num-word | Hold: NUM"><span class="tap">Tmux</span><span class="hold">NUM</span></div>
+    <div class="key key-thumb pos-lh0" title="Tap: Space | Shift: . Space Sticky-Shift | Hold: NAV"><span class="tap">Space</span><span class="hold">NAV</span></div>
+    <div class="key key-thumb pos-rh0" title="Tap: Enter | Hold: Super+NUM layer"><span class="tap">Enter</span><span class="hold">SNUM</span></div>
+    <div class="key key-thumb pos-rh1" title="Tap: Backspace | Shift: Delete"><span class="tap">Bspc</span><span class="shift-tap">Del</span></div>
+    <div class="key key-thumb pos-rh2" title="Tap: One-shot Shift | Shift: CapsLock | Ctrl: Sticky FN | Hold: FN"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ QWERTY ═══════════════ -->
+<div class="layer-panel" id="layer-qwerty">
+  <div class="keyboard-container"><div class="keyboard">
+    <div class="key key-shared pos-lt5"><span class="tap">MED</span><span class="hold">sticky</span></div>
+    <div class="key key-alpha pos-lt4"><span class="tap">Q</span></div>
+    <div class="key key-alpha pos-lt3"><span class="tap">W</span></div>
+    <div class="key key-alpha pos-lt2"><span class="tap">E</span></div>
+    <div class="key key-alpha pos-lt1"><span class="tap">R</span></div>
+    <div class="key key-alpha pos-lt0"><span class="tap">T</span></div>
+    <div class="key key-alpha pos-rt0"><span class="tap">Y</span></div>
+    <div class="key key-alpha pos-rt1"><span class="tap">U</span></div>
+    <div class="key key-alpha pos-rt2"><span class="tap">I</span></div>
+    <div class="key key-alpha pos-rt3"><span class="tap">O</span></div>
+    <div class="key key-alpha pos-rt4"><span class="tap">P</span></div>
+    <div class="key key-shared pos-rt5"><span class="tap">Pass</span></div>
+    <div class="key key-shared pos-lm5"><span class="tap">Launch</span></div>
+    <div class="key key-hrm pos-lm4"><span class="tap">A</span><span class="mod-label">Gui</span></div>
+    <div class="key key-hrm pos-lm3"><span class="tap">S</span><span class="mod-label">Alt</span></div>
+    <div class="key key-hrm pos-lm2"><span class="tap">D</span><span class="mod-label">Sft</span></div>
+    <div class="key key-hrm pos-lm1"><span class="tap">F</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-alpha pos-lm0"><span class="tap">G</span></div>
+    <div class="key key-alpha pos-rm0"><span class="tap">H</span></div>
+    <div class="key key-hrm pos-rm1"><span class="tap">J</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-hrm pos-rm2"><span class="tap">K</span><span class="mod-label">Sft</span></div>
+    <div class="key key-hrm pos-rm3"><span class="tap">L</span><span class="mod-label">Alt</span></div>
+    <div class="key key-hrm pos-rm4"><span class="tap">'</span><span class="mod-label">Gui</span></div>
+    <div class="key key-shared pos-rm5"><span class="tap">Clip</span></div>
+    <div class="key key-shared pos-lb5"><span class="tap">QWRT</span><span class="hold">toggle</span></div>
+    <div class="key key-alpha pos-lb4"><span class="tap">Z</span></div>
+    <div class="key key-alpha pos-lb3"><span class="tap">X</span></div>
+    <div class="key key-alpha pos-lb2"><span class="tap">C</span></div>
+    <div class="key key-alpha pos-lb1"><span class="tap">V</span></div>
+    <div class="key key-alpha pos-lb0"><span class="tap">B</span></div>
+    <div class="key key-alpha pos-rb0"><span class="tap">N</span></div>
+    <div class="key key-alpha pos-rb1"><span class="tap">M</span></div>
+    <div class="key key-symbol pos-rb2"><span class="tap">, ; &lt;</span></div>
+    <div class="key key-symbol pos-rb3"><span class="tap">. : &gt;</span></div>
+    <div class="key key-symbol pos-rb4"><span class="tap">? !</span></div>
+    <div class="key key-shared pos-rb5"><span class="tap">Mouse</span></div>
+    <div class="key key-thumb pos-lh2"><span class="tap">Leader</span></div>
+    <div class="key key-trans pos-lh1"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-lh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh1"><span class="tap">&darr;</span></div>
+    <div class="key key-thumb pos-rh2"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<div class="layer-panel" id="layer-nav">
+  <div class="keyboard-container"><div class="keyboard">
+    <div class="key key-shared pos-lt5"><span class="tap">MED</span></div>
+    <div class="key key-nav pos-lt4" title="Alt+F4: Close window"><span class="tap">Quit</span><span class="hold">A+F4</span></div>
+    <div class="key key-nav pos-lt3" title="Ctrl+W: Close tab"><span class="tap">ClsTab</span></div>
+    <div class="key key-nav pos-lt2" title="Super+E: Explorer"><span class="tap">Explr</span></div>
+    <div class="key key-nav pos-lt1" title="F2: Rename"><span class="tap">Ren</span></div>
+    <div class="key key-nav pos-lt0" title="Ctrl+T: New tab"><span class="tap">NewTab</span></div>
+    <div class="key key-twm pos-rt0" title="Super+Left: TWM focus left"><span class="tap">&larr;</span><span class="hold">TWM</span></div>
+    <div class="key key-twm pos-rt1" title="Super+Down: TWM focus down"><span class="tap">&darr;</span><span class="hold">TWM</span></div>
+    <div class="key key-twm pos-rt2" title="Super+Up: TWM focus up"><span class="tap">&uarr;</span><span class="hold">TWM</span></div>
+    <div class="key key-twm pos-rt3" title="Super+Right: TWM focus right"><span class="tap">&rarr;</span><span class="hold">TWM</span></div>
+    <div class="key key-trans pos-rt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rt5"><span class="tap">Pass</span></div>
+    <div class="key key-shared pos-lm5"><span class="tap">Launch</span></div>
+    <div class="key key-mod pos-lm4" title="Super"><span class="tap">Super</span></div>
+    <div class="key key-mod pos-lm3" title="Sticky Alt"><span class="tap">Alt</span><span class="hold">sticky</span></div>
+    <div class="key key-nav pos-lm2" title="Hold: Shift | Tap: Delete"><span class="tap">Del</span><span class="mod-label">Sft</span></div>
+    <div class="key key-nav pos-lm1" title="Hold: Ctrl | Tap: Ctrl+F (Find)"><span class="tap">Find</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-nav pos-lm0" title="Ctrl+Alt+Tab: App switcher"><span class="tap">Swap</span></div>
+    <div class="key key-nav pos-rm0" title="Tap: Left | Long-tap: Home"><span class="tap">&larr;</span><span class="hold">Home</span></div>
+    <div class="key key-nav pos-rm1" title="Tap: Down | Long-tap: End of doc"><span class="tap">&darr;</span><span class="hold">C-End</span></div>
+    <div class="key key-nav pos-rm2" title="Tap: Up | Long-tap: Start of doc"><span class="tap">&uarr;</span><span class="hold">C-Home</span></div>
+    <div class="key key-nav pos-rm3" title="Tap: Right | Long-tap: End"><span class="tap">&rarr;</span><span class="hold">End</span></div>
+    <div class="key key-nav pos-rm4" title="Super+Ctrl+Alt+Shift+J: Window jumper"><span class="tap">Jump</span></div>
+    <div class="key key-shared pos-rm5"><span class="tap">Clip</span></div>
+    <div class="key key-shared pos-lb5"><span class="tap">QWRT</span></div>
+    <div class="key key-trans pos-lb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-nav pos-rb0"><span class="tap">Home</span></div>
+    <div class="key key-nav pos-rb1"><span class="tap">End</span></div>
+    <div class="key key-nav pos-rb2"><span class="tap">PgUp</span></div>
+    <div class="key key-nav pos-rb3"><span class="tap">PgDn</span></div>
+    <div class="key key-trans pos-rb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rb5"><span class="tap">Mouse</span></div>
+    <div class="key key-thumb pos-lh2"><span class="tap">Leader</span></div>
+    <div class="key key-trans pos-lh1"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-lh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh0"><span class="tap">&darr;</span></div>
+    <div class="key key-nav pos-rh1" title="Cancel: deactivate caps-word & auto-layers"><span class="tap">Cancel</span></div>
+    <div class="key key-thumb pos-rh2"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ FN ═══════════════ -->
+<div class="layer-panel" id="layer-fn">
+  <div class="keyboard-container"><div class="keyboard">
+    <div class="key key-shared pos-lt5"><span class="tap">MED</span></div>
+    <div class="key key-fn pos-lt4"><span class="tap">F12</span></div>
+    <div class="key key-fn pos-lt3"><span class="tap">F7</span></div>
+    <div class="key key-fn pos-lt2"><span class="tap">F8</span></div>
+    <div class="key key-fn pos-lt1"><span class="tap">F9</span></div>
+    <div class="key key-trans pos-lt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rt5"><span class="tap">Pass</span></div>
+    <div class="key key-shared pos-lm5"><span class="tap">Launch</span></div>
+    <div class="key key-fn pos-lm4" title="Hold: Super"><span class="tap">F11</span><span class="mod-label">Gui</span></div>
+    <div class="key key-fn pos-lm3" title="Hold: Alt"><span class="tap">F4</span><span class="mod-label">Alt</span></div>
+    <div class="key key-fn pos-lm2" title="Hold: Shift"><span class="tap">F5</span><span class="mod-label">Sft</span></div>
+    <div class="key key-fn pos-lm1" title="Hold: Ctrl"><span class="tap">F6</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-trans pos-lm0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rm0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rm1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rm2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rm3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rm4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rm5"><span class="tap">Clip</span></div>
+    <div class="key key-shared pos-lb5"><span class="tap">QWRT</span></div>
+    <div class="key key-fn pos-lb4"><span class="tap">F10</span></div>
+    <div class="key key-fn pos-lb3"><span class="tap">F1</span></div>
+    <div class="key key-fn pos-lb2"><span class="tap">F2</span></div>
+    <div class="key key-fn pos-lb1"><span class="tap">F3</span></div>
+    <div class="key key-trans pos-lb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rb5"><span class="tap">Mouse</span></div>
+    <div class="key key-thumb pos-lh2"><span class="tap">Leader</span></div>
+    <div class="key key-trans pos-lh1"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-lh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh1"><span class="tap">&darr;</span></div>
+    <div class="key key-thumb pos-rh2"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ NUM ═══════════════ -->
+<div class="layer-panel" id="layer-num">
+  <div class="keyboard-container"><div class="keyboard">
+    <div class="key key-shared pos-lt5"><span class="tap">MED</span></div>
+    <div class="key key-trans pos-lt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-num pos-lt3"><span class="tap">7</span></div>
+    <div class="key key-num pos-lt2"><span class="tap">8</span></div>
+    <div class="key key-num pos-lt1"><span class="tap">9</span></div>
+    <div class="key key-trans pos-lt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-num pos-rt1"><span class="tap">7</span></div>
+    <div class="key key-num pos-rt2"><span class="tap">8</span></div>
+    <div class="key key-num pos-rt3"><span class="tap">9</span></div>
+    <div class="key key-trans pos-rt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rt5"><span class="tap">Pass</span></div>
+    <div class="key key-shared pos-lm5"><span class="tap">Launch</span></div>
+    <div class="key key-num pos-lm4" title="Hold: Super"><span class="tap">0</span><span class="mod-label">Gui</span></div>
+    <div class="key key-num pos-lm3" title="Hold: Alt"><span class="tap">4</span><span class="mod-label">Alt</span></div>
+    <div class="key key-num pos-lm2" title="Hold: Shift"><span class="tap">5</span><span class="mod-label">Sft</span></div>
+    <div class="key key-num pos-lm1" title="Hold: Ctrl"><span class="tap">6</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-trans pos-lm0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rm0"><span class="tap">&mdash;</span></div>
+    <div class="key key-num pos-rm1" title="Hold: Ctrl"><span class="tap">4</span><span class="mod-label">Ctl</span></div>
+    <div class="key key-num pos-rm2" title="Hold: Shift"><span class="tap">5</span><span class="mod-label">Sft</span></div>
+    <div class="key key-num pos-rm3" title="Hold: Alt"><span class="tap">6</span><span class="mod-label">Alt</span></div>
+    <div class="key key-num pos-rm4" title="Hold: Super"><span class="tap">0</span><span class="mod-label">Gui</span></div>
+    <div class="key key-shared pos-rm5"><span class="tap">Clip</span></div>
+    <div class="key key-shared pos-lb5"><span class="tap">QWRT</span></div>
+    <div class="key key-trans pos-lb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-num pos-lb3"><span class="tap">1</span></div>
+    <div class="key key-num pos-lb2"><span class="tap">2</span></div>
+    <div class="key key-num pos-lb1"><span class="tap">3</span></div>
+    <div class="key key-trans pos-lb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-num pos-rb1"><span class="tap">1</span></div>
+    <div class="key key-num pos-rb2"><span class="tap">2</span></div>
+    <div class="key key-num pos-rb3"><span class="tap">3</span></div>
+    <div class="key key-trans pos-rb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rb5"><span class="tap">Mouse</span></div>
+    <div class="key key-thumb pos-lh2"><span class="tap">Leader</span></div>
+    <div class="key key-trans pos-lh1"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-lh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh1"><span class="tap">&darr;</span></div>
+    <div class="key key-thumb pos-rh2"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ SUPER+NUM ═══════════════ -->
+<div class="layer-panel" id="layer-snum">
+  <div class="keyboard-container"><div class="keyboard">
+    <div class="key key-shared pos-lt5"><span class="tap">MED</span></div>
+    <div class="key key-trans pos-lt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-super pos-lt3" title="Super+7"><span class="tap">S+7</span></div>
+    <div class="key key-super pos-lt2" title="Super+8"><span class="tap">S+8</span></div>
+    <div class="key key-super pos-lt1" title="Super+9"><span class="tap">S+9</span></div>
+    <div class="key key-trans pos-lt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-super pos-rt1" title="Super+7"><span class="tap">S+7</span></div>
+    <div class="key key-super pos-rt2" title="Super+8"><span class="tap">S+8</span></div>
+    <div class="key key-super pos-rt3" title="Super+9"><span class="tap">S+9</span></div>
+    <div class="key key-trans pos-rt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rt5"><span class="tap">Pass</span></div>
+    <div class="key key-shared pos-lm5"><span class="tap">Launch</span></div>
+    <div class="key key-super pos-lm4" title="Super+0"><span class="tap">S+0</span></div>
+    <div class="key key-super pos-lm3" title="Super+4"><span class="tap">S+4</span></div>
+    <div class="key key-super pos-lm2" title="Super+5"><span class="tap">S+5</span></div>
+    <div class="key key-super pos-lm1" title="Super+6"><span class="tap">S+6</span></div>
+    <div class="key key-trans pos-lm0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rm0"><span class="tap">&mdash;</span></div>
+    <div class="key key-super pos-rm1" title="Super+4"><span class="tap">S+4</span></div>
+    <div class="key key-super pos-rm2" title="Super+5"><span class="tap">S+5</span></div>
+    <div class="key key-super pos-rm3" title="Super+6"><span class="tap">S+6</span></div>
+    <div class="key key-super pos-rm4" title="Super+0"><span class="tap">S+0</span></div>
+    <div class="key key-shared pos-rm5"><span class="tap">Clip</span></div>
+    <div class="key key-shared pos-lb5"><span class="tap">QWRT</span></div>
+    <div class="key key-trans pos-lb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-super pos-lb3" title="Super+1"><span class="tap">S+1</span></div>
+    <div class="key key-super pos-lb2" title="Super+2"><span class="tap">S+2</span></div>
+    <div class="key key-super pos-lb1" title="Super+3"><span class="tap">S+3</span></div>
+    <div class="key key-trans pos-lb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-super pos-rb1" title="Super+1"><span class="tap">S+1</span></div>
+    <div class="key key-super pos-rb2" title="Super+2"><span class="tap">S+2</span></div>
+    <div class="key key-super pos-rb3" title="Super+3"><span class="tap">S+3</span></div>
+    <div class="key key-trans pos-rb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rb5"><span class="tap">Mouse</span></div>
+    <div class="key key-thumb pos-lh2"><span class="tap">Leader</span></div>
+    <div class="key key-trans pos-lh1"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-lh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh0"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-rh1"><span class="tap">&darr;</span></div>
+    <div class="key key-thumb pos-rh2"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ MEDIA ═══════════════ -->
+<div class="layer-panel" id="layer-media">
+  <div class="keyboard-container"><div class="keyboard">
+    <div class="key key-shared pos-lt5"><span class="tap">MED</span></div>
+    <div class="key key-bt pos-lt4" title="Bluetooth profile 0"><span class="tap">BT 0</span></div>
+    <div class="key key-bt pos-lt3" title="Bluetooth profile 1"><span class="tap">BT 1</span></div>
+    <div class="key key-bt pos-lt2" title="Bluetooth profile 2"><span class="tap">BT 2</span></div>
+    <div class="key key-bt pos-lt1" title="Bluetooth profile 3"><span class="tap">BT 3</span></div>
+    <div class="key key-bt pos-lt0" title="Clear Bluetooth pairing"><span class="tap">BT Clr</span></div>
+    <div class="key key-bt pos-rt0"><span class="tap">BT 0</span></div>
+    <div class="key key-bt pos-rt1"><span class="tap">BT 1</span></div>
+    <div class="key key-bt pos-rt2"><span class="tap">BT 2</span></div>
+    <div class="key key-bt pos-rt3"><span class="tap">BT 3</span></div>
+    <div class="key key-bt pos-rt4"><span class="tap">BT 4</span></div>
+    <div class="key key-shared pos-rt5"><span class="tap">Pass</span></div>
+    <div class="key key-shared pos-lm5"><span class="tap">Launch</span></div>
+    <div class="key key-trans pos-lm4"><span class="tap">&mdash;</span></div>
+    <div class="key key-media pos-lm3"><span class="tap">Prev</span></div>
+    <div class="key key-media pos-lm2"><span class="tap">Vol+</span></div>
+    <div class="key key-media pos-lm1"><span class="tap">Vol-</span></div>
+    <div class="key key-media pos-lm0"><span class="tap">Next</span></div>
+    <div class="key key-media pos-rm0"><span class="tap">Prev</span></div>
+    <div class="key key-media pos-rm1"><span class="tap">Vol-</span></div>
+    <div class="key key-media pos-rm2"><span class="tap">Vol+</span></div>
+    <div class="key key-media pos-rm3"><span class="tap">Next</span></div>
+    <div class="key key-trans pos-rm4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rm5"><span class="tap">Clip</span></div>
+    <div class="key key-shared pos-lb5"><span class="tap">QWRT</span></div>
+    <div class="key key-fn pos-lb4" title="Bootloader mode"><span class="tap">Boot</span></div>
+    <div class="key key-fn pos-lb3" title="System reset"><span class="tap">Reset</span></div>
+    <div class="key key-trans pos-lb2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rb5"><span class="tap">Mouse</span></div>
+    <div class="key key-thumb pos-lh2"><span class="tap">Leader</span></div>
+    <div class="key key-media pos-lh1"><span class="tap">Mute</span></div>
+    <div class="key key-media pos-lh0"><span class="tap">Play</span></div>
+    <div class="key key-media pos-rh0"><span class="tap">Play</span></div>
+    <div class="key key-media pos-rh1"><span class="tap">Mute</span></div>
+    <div class="key key-thumb pos-rh2"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ MOUSE ═══════════════ -->
+<div class="layer-panel" id="layer-mouse">
+  <div class="keyboard-container"><div class="keyboard">
+    <div class="key key-shared pos-lt5"><span class="tap">MED</span></div>
+    <div class="key key-trans pos-lt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lt3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lt2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lt1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt0"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-rt4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rt5"><span class="tap">Pass</span></div>
+    <div class="key key-shared pos-lm5"><span class="tap">Launch</span></div>
+    <div class="key key-trans pos-lm4"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lm3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lm2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lm1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lm0"><span class="tap">&mdash;</span></div>
+    <div class="key key-mouse pos-rm0"><span class="tap">&larr;</span><span class="hold">mouse</span></div>
+    <div class="key key-mouse pos-rm1"><span class="tap">&darr;</span><span class="hold">mouse</span></div>
+    <div class="key key-mouse pos-rm2"><span class="tap">&uarr;</span><span class="hold">mouse</span></div>
+    <div class="key key-mouse pos-rm3"><span class="tap">&rarr;</span><span class="hold">mouse</span></div>
+    <div class="key key-mouse pos-rm4" title="Scroll right"><span class="tap">WH &rarr;</span></div>
+    <div class="key key-shared pos-rm5"><span class="tap">Clip</span></div>
+    <div class="key key-shared pos-lb5"><span class="tap">QWRT</span></div>
+    <div class="key key-trans pos-lb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb3"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb2"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb1"><span class="tap">&mdash;</span></div>
+    <div class="key key-trans pos-lb0"><span class="tap">&mdash;</span></div>
+    <div class="key key-mouse pos-rb0" title="Scroll left"><span class="tap">WH &larr;</span></div>
+    <div class="key key-mouse pos-rb1" title="Left click"><span class="tap">LClk</span></div>
+    <div class="key key-mouse pos-rb2" title="Middle click"><span class="tap">MClk</span></div>
+    <div class="key key-mouse pos-rb3" title="Right click"><span class="tap">RClk</span></div>
+    <div class="key key-trans pos-rb4"><span class="tap">&mdash;</span></div>
+    <div class="key key-shared pos-rb5"><span class="tap">Mouse</span></div>
+    <div class="key key-thumb pos-lh2"><span class="tap">Leader</span></div>
+    <div class="key key-trans pos-lh1"><span class="tap">&darr;</span></div>
+    <div class="key key-trans pos-lh0"><span class="tap">&darr;</span></div>
+    <div class="key key-mouse pos-rh0" title="Scroll up"><span class="tap">WH &uarr;</span></div>
+    <div class="key key-mouse pos-rh1" title="Scroll down"><span class="tap">WH &darr;</span></div>
+    <div class="key key-thumb pos-rh2"><span class="tap">OSShft</span><span class="hold">FN</span></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════ COMBOS ═══════════════ -->
+<div class="combos-section">
+  <h2>Combos</h2>
+  <div class="combo-grid">
+    <div class="combo-item"><span class="combo-keys">P + F</span><span class="combo-result">CapsWord/Shift</span><span class="combo-layers">all</span></div>
+    <div class="combo-item"><span class="combo-keys">R + S</span><span class="combo-result">Esc</span><span class="combo-layers">all</span></div>
+    <div class="combo-item"><span class="combo-keys">S + T</span><span class="combo-result">Tab</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">T + R</span><span class="combo-result">Enter</span><span class="combo-layers">all</span></div>
+    <div class="combo-item"><span class="combo-keys">X + D</span><span class="combo-result">Cut</span><span class="combo-layers">all</span></div>
+    <div class="combo-item"><span class="combo-keys">X + C</span><span class="combo-result">Copy</span><span class="combo-layers">all</span></div>
+    <div class="combo-item"><span class="combo-keys">C + D</span><span class="combo-result">Paste</span><span class="combo-layers">all</span></div>
+    <div class="combo-item"><span class="combo-keys">U + Y</span><span class="combo-result">Bspc</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">L + U</span><span class="combo-result">Del</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">N + E</span><span class="combo-result">( _</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">E + I</span><span class="combo-result">) $</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">N + I</span><span class="combo-result">=</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">N + E</span><span class="combo-result">Prev Tab</span><span class="combo-layers">NAV</span></div>
+    <div class="combo-item"><span class="combo-keys">E + I</span><span class="combo-result">Next Tab</span><span class="combo-layers">NAV</span></div>
+    <div class="combo-item"><span class="combo-keys">H + ,</span><span class="combo-result">[</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">, + .</span><span class="combo-result">]</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">P + G</span><span class="combo-result">@</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">F + T</span><span class="combo-result">#</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">F + R</span><span class="combo-result">%</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">T + V</span><span class="combo-result">~</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">S + D</span><span class="combo-result">^</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">S + X</span><span class="combo-result">`</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">L + M</span><span class="combo-result">+</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">U + N</span><span class="combo-result">-</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">U + I</span><span class="combo-result">&amp;</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">N + K</span><span class="combo-result">*</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">E + H</span><span class="combo-result">/ \</span><span class="combo-layers">DEF NUM COL</span></div>
+    <div class="combo-item"><span class="combo-keys">E + X</span><span class="combo-result">|</span><span class="combo-layers">DEF NUM COL</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ LEGEND ═══════════════ -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--bg1);border-bottom:2px solid var(--aqua-dim)"></div>Home-Row Mod</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#3b4439;border-color:var(--green-dim)"></div>Modifier</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#3a3428;border-color:var(--yellow-dim)"></div>Thumb / Num</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#2e3b3b;border-color:var(--blue-dim)"></div>Navigation / Media</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#3b3040;border-color:var(--purple-dim)"></div>Symbol / TWM</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--bg2);border-color:var(--bg4)"></div>Shared (all layers)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--bg);border-color:var(--bg2);opacity:0.5"></div>Transparent</div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.layer-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('layer-' + tab.dataset.layer).classList.add('active');
+    });
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key >= '1' && e.key <= '8') {
+      const idx = parseInt(e.key) - 1;
+      if (tabs[idx]) tabs[idx].click();
+    }
+  });
+</script>
+
+</body>
+</html>

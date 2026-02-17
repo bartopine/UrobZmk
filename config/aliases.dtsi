@@ -7,6 +7,7 @@
 #define NUM 4
 #define MED 5
 #define MOUSE 6
+#define SNUM 7
 
 #define XXX &none
 #define ___ &trans
@@ -53,7 +54,7 @@
 
 #define CUS_P    &kp LC(LA(LS(P)))      // password managers
 #define CUS_D    &kp LC(LA(LS(C)))      // ditto clipboard manager
-#define CUS_L    &launcher_ht NUM LC(LA(LS(SPACE)))  // tap: launcher | hold: Super+NUM
+#define CUS_L    &kp LC(LA(LS(SPACE)))               // tap: launcher
 #define CUS_J    &kp LG(LC(LA(LS(J))))  // windows jumper
 #define CUS_W    &kp LC(W)              // close tab
 #define CUS_Q    &kp LA(F4)             // terminate window

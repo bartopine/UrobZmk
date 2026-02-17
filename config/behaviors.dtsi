@@ -73,9 +73,6 @@ ZMK_ADAPTIVE_KEY(
       max-prior-idle-ms = <1200>;
       strict-modifiers;
     };)
-&caps_word { // Mods deactivate caps-word, requires PR #1451. [TODO: rebase]
-  /delete-property/ ignore-modifiers;
-};
 
 // Tap: num-word | double-tap: sticky num-layer | Hold: num-layer.
 ZMK_HOLD_TAP(smart_num, bindings = <&mo>, <&num_dance>; flavor = "balanced";
@@ -147,10 +144,9 @@ ZMK_HOLD_TAP(tmux_num, bindings = <&mo>, <&tmux_smart>; flavor = "balanced";
              tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
 ZMK_MACRO(leader_sft, bindings = <&sk LSHFT &leader>;)
 
-// Hold: Super + NUM layer (for workspace switching etc.)
-ZMK_MACRO_ONE_PARAM(super_mo,
-    bindings = <&macro_press>, <&macro_param_1to1>, <&mo MACRO_PLACEHOLDER>, <&kp LGUI>,
-               <&macro_pause_for_release>,
-               <&macro_release>, <&macro_param_1to1>, <&mo MACRO_PLACEHOLDER>, <&kp LGUI>;)
-ZMK_HOLD_TAP(launcher_ht, bindings = <&super_mo>, <&kp>; flavor = "balanced";
+/* RH2 — tap: one-shot shift | shift+tap: capslock | ctrl+tap: sticky FN | hold: FN */
+
+SIMPLE_MORPH(rh2_inner, CTL, &sk LSHFT, &sl FN)
+SIMPLE_MORPH(rh2_tap, SFT, &rh2_inner, &kp CAPSLOCK)
+ZMK_HOLD_TAP(rh2_ht, bindings = <&mo>, <&rh2_tap>; flavor = "balanced";
              tapping-term-ms = <200>; quick-tap-ms = <QUICK_TAP_MS>;)
